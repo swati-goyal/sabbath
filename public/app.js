@@ -33,7 +33,7 @@ const sceneEl = document.getElementById("scene");
 
 let revealing = false;
 
-revealBtn.addEventListener("click", async () => {
+async function doReveal() {
   if (revealing) return;
   revealing = true;
 
@@ -52,12 +52,23 @@ revealBtn.addEventListener("click", async () => {
   listenEl.href = `https://www.youtube.com/results?search_query=${q}`;
   listenEl.textContent = "Search on YouTube";
 
-  // Haptic hint on mobile
   if (window.navigator && "vibrate" in window.navigator) {
     try { window.navigator.vibrate(40); } catch {}
   }
 
   revealing = false;
+}
+
+revealBtn.addEventListener("click", doReveal);
+
+// Auto-reveal when coming from QR (e.g., ?reveal=1)
+window.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const shouldReveal = params.has("reveal") ? params.get("reveal") !== "0" : false;
+  if (shouldReveal) {
+    if (revealBtn) revealBtn.style.display = "none";
+    doReveal();
+  }
 });
 
 

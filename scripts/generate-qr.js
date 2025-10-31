@@ -20,7 +20,8 @@ function getLocalIPv4() {
 
 async function main() {
   const ip = getLocalIPv4();
-  const url = PUBLIC_URL ? PUBLIC_URL.replace(/\/$/, '') : `http://${ip}:${PORT}`;
+  const base = PUBLIC_URL ? PUBLIC_URL.replace(/\/$/, '') : `http://${ip}:${PORT}`;
+  const url = `${base}?reveal=1`;
 
   const outDir = path.join(process.cwd(), 'qr');
   const outPath = path.join(outDir, 'qr.png');
