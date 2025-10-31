@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Halloween Reveal — Black Sabbath</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <meta name="theme-color" content="#0b0b0f">
+  </head>
+  <body>
+    <div id="scene">
+      <div class="moon"></div>
+      <div class="fog fog-1"></div>
+      <div class="fog fog-2"></div>
+      <div class="bats">
+        <div class="bat"></div>
+        <div class="bat delay-1"></div>
+        <div class="bat delay-2"></div>
+      </div>
+      <div class="pumpkins">
+        <div class="pumpkin"></div>
+        <div class="pumpkin small"></div>
+      </div>
+      <div class="candles">
+        <div class="candle"></div>
+        <div class="candle small"></div>
+      </div>
+    </div>
+
+    <main class="panel">
+      <h1 class="title">All Hallows' Eve</h1>
+      <p class="subtitle">A Black Sabbath omen awaits...</p>
+
+      <button id="reveal-btn" class="reveal">Raise the dead</button>
+
+      <div id="result" class="result hidden">
+        <div class="marquee">
+          <span id="song-title"></span>
+        </div>
+        <p class="album" id="album-name"></p>
+        <a id="listen-link" class="listen" target="_blank" rel="noopener">Listen</a>
+      </div>
+
+      <footer class="footer">Summon responsibly · 
+        <a href="https://en.wikipedia.org/wiki/Black_Sabbath_discography" target="_blank" rel="noopener">Discography</a>
+      </footer>
+    </main>
+
+    <script src="app.js" defer></script>
+  </body>
+  </html>
+
+
