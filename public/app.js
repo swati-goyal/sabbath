@@ -67,48 +67,6 @@ const sceneEl = document.getElementById("scene");
 
 let revealing = false;
 
-function createBigBangExplosion() {
-  const layer = document.createElement("div");
-  layer.className = "big-bang-layer";
-  sceneEl.appendChild(layer);
-
-  // Create bright flash effect
-  const flash = document.createElement("div");
-  flash.className = "big-bang-flash";
-  layer.appendChild(flash);
-
-  // Create many bats as confetti (60-80 bats for big bang effect)
-  const batCount = 70 + Math.floor(Math.random() * 20);
-  for (let i = 0; i < batCount; i++) {
-    const ang = Math.random() * Math.PI * 2;
-    // Vary the distance more for big bang - some go far, some medium, some close
-    const distVariation = Math.random();
-    const dist = distVariation < 0.3 ? 200 + Math.random() * 150 : // close
-                 distVariation < 0.7 ? 350 + Math.random() * 200 : // medium
-                                       500 + Math.random() * 300;   // far
-    const rot = (Math.random() * 360).toFixed(1) + "deg";
-    const tx = Math.cos(ang) * dist;
-    const ty = Math.sin(ang) * dist;
-    const delay = Math.random() * 50; // slight stagger
-    
-    const b = document.createElement("div");
-    b.className = "bat confetti";
-    b.style.setProperty("--tx", `${tx.toFixed(1)}px`);
-    b.style.setProperty("--ty", `${ty.toFixed(1)}px`);
-    b.style.setProperty("--rot", rot);
-    b.style.setProperty("--dur", `${800 + Math.random() * 400}ms`);
-    b.style.animationDelay = `${delay}ms`;
-    layer.appendChild(b);
-  }
-
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      layer.remove();
-      resolve();
-    }, 1300);
-  });
-}
-
 async function doReveal() {
   if (revealing) return;
   revealing = true;
@@ -116,29 +74,12 @@ async function doReveal() {
   if (!songsLoaded) await loadSongs();
   const pick = getNextSongUnique();
 
-  // Hide result initially, show during explosion
   resultEl.classList.remove("hidden");
-  resultEl.style.opacity = "0";
-  titleEl.textContent = "";
-  albumEl.textContent = "";
-
-  // Create big bang explosion
-  await createBigBangExplosion();
-
-  // Reveal song after explosion
-  await new Promise(r => setTimeout(r, 200));
-  resultEl.style.opacity = "1";
-  resultEl.style.transition = "opacity 0.6s ease-in";
-  
   titleEl.textContent = pick.title;
   albumEl.textContent = pick.album;
   const q = encodeURIComponent(`${pick.title} by Black Sabbath`);
   listenEl.href = `https://www.youtube.com/results?search_query=${q}`;
   listenEl.textContent = "Listen";
-
-  if (window.navigator && "vibrate" in window.navigator) {
-    try { window.navigator.vibrate([50, 30, 50]); } catch {}
-  }
 
   revealing = false;
 }
