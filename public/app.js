@@ -16,7 +16,11 @@ async function loadSongs() {
     const res = await fetch('songs.txt', { cache: 'no-cache' });
     const txt = await res.text();
     const raw = txt.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
-    const filtered = raw.filter(title => title.toLowerCase() !== 'n.i.b.' && title.toLowerCase() !== 'nib' && title.toLowerCase() !== 'n.i.b');
+    const filtered = raw.filter(title => {
+      const lower = title.toLowerCase();
+      return lower !== 'n.i.b.' && lower !== 'nib' && lower !== 'n.i.b' && 
+             !lower.includes('nativity in black');
+    });
     const unique = Array.from(new Set(filtered));
     songs = unique.map(title => ({ title, album: '' }));
     const stored = sessionStorage.getItem('songOrder');
@@ -79,7 +83,7 @@ async function doReveal() {
 
   titleEl.textContent = pick.title + "   ";
   albumEl.textContent = pick.album;
-  const q = encodeURIComponent(`${pick.title} ${pick.album}`);
+  const q = encodeURIComponent(`${pick.title} by Black Sabbath`);
   listenEl.href = `https://www.youtube.com/results?search_query=${q}`;
   listenEl.textContent = "Listen";
 
