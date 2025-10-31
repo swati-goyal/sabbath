@@ -67,6 +67,52 @@ const sceneEl = document.getElementById("scene");
 
 let revealing = false;
 
+function createConfetti(element) {
+  const colors = ['#ff6b00', '#a855f7', '#ffd700', '#ff0000', '#00ff00', '#00ffff', '#ff00ff'];
+  const confettiCount = 50;
+  const container = document.createElement('div');
+  container.className = 'confetti-container';
+  element.style.position = 'relative';
+  element.style.overflow = 'visible';
+  element.appendChild(container);
+
+  const rect = element.getBoundingClientRect();
+  const centerX = rect.width / 2;
+  const centerY = rect.height / 2;
+
+  for (let i = 0; i < confettiCount; i++) {
+    const confetti = document.createElement('div');
+    confetti.className = 'confetti-particle';
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const size = Math.random() * 8 + 4;
+    const angle = (Math.PI * 2 * i) / confettiCount;
+    const velocity = Math.random() * 300 + 200;
+    const rotation = Math.random() * 720;
+    
+    confetti.style.position = 'absolute';
+    confetti.style.left = centerX + 'px';
+    confetti.style.top = centerY + 'px';
+    confetti.style.width = size + 'px';
+    confetti.style.height = size + 'px';
+    confetti.style.backgroundColor = color;
+    confetti.style.borderRadius = '50%';
+    confetti.style.opacity = '1';
+    
+    const tx = Math.cos(angle) * velocity;
+    const ty = Math.sin(angle) * velocity;
+    
+    confetti.style.setProperty('--tx', tx + 'px');
+    confetti.style.setProperty('--ty', ty + 'px');
+    confetti.style.setProperty('--rot', rotation + 'deg');
+    
+    container.appendChild(confetti);
+  }
+
+  setTimeout(() => {
+    container.remove();
+  }, 2000);
+}
+
 async function doReveal() {
   if (revealing) return;
   revealing = true;
@@ -80,6 +126,9 @@ async function doReveal() {
   const q = encodeURIComponent(`${pick.title} by Black Sabbath`);
   listenEl.href = `https://www.youtube.com/results?search_query=${q}`;
   listenEl.textContent = "Listen";
+
+  // Trigger confetti
+  createConfetti(resultEl);
 
   revealing = false;
 }

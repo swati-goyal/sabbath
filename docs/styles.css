@@ -162,6 +162,7 @@ body {
   border-radius: clamp(12px, 16px, 20px);
   padding: clamp(20px, 24px, 28px) clamp(16px, 20px, 24px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  overflow: visible;
 }
 
 .title { 
@@ -204,8 +205,46 @@ body {
   .reveal:active { transform: scale(0.98); }
 }
 
-.result { display: grid; gap: 8px; align-items: center; justify-items: center; padding-top: 4px; }
+.result { 
+  display: grid; 
+  gap: 8px; 
+  align-items: center; 
+  justify-items: center; 
+  padding-top: 4px;
+  overflow: visible;
+  position: relative;
+}
 .hidden { display: none; }
+
+/* Confetti animation */
+.confetti-container {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 100;
+  transform: translate(25%, 25%);
+}
+
+.confetti-particle {
+  position: absolute;
+  will-change: transform, opacity;
+  animation: confettiFall 2s ease-out forwards;
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx, 100px), var(--ty, 100px)) rotate(var(--rot, 360deg)) scale(0);
+    opacity: 0;
+  }
+}
 
 .marquee { width: 100%; overflow: hidden; white-space: nowrap; }
 .marquee span { display: block; font-weight: 800; font-size: clamp(18px, 3.5vw, 28px); letter-spacing: 0.3px; text-align: center; }
