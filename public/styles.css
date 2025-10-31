@@ -28,18 +28,6 @@ body {
   z-index: 1;
 }
 
-.moon {
-  position: absolute;
-  top: clamp(5vh, 8vh, 10vh);
-  right: clamp(5vw, 10vw, 15vw);
-  width: clamp(80px, 140px, 180px);
-  height: clamp(80px, 140px, 180px);
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #fff, #ddd 40%, #bbb 60%, #999 75%, #888 100%);
-  box-shadow: 0 0 clamp(60px, 120px, 150px) clamp(20px, 40px, 50px) rgba(255,255,255,0.07);
-  filter: blur(0.2px) saturate(0.95);
-}
-
 /* Interactive Ghosts */
 .ghost {
   position: absolute;
@@ -113,6 +101,36 @@ body {
   top: 50%;
   left: 50%;
   animation: float 12s ease-in-out infinite 1.5s;
+}
+
+.ghost-6 {
+  top: 20%;
+  left: 50%;
+  animation: float 9.5s ease-in-out infinite 0.7s;
+}
+
+.ghost-7 {
+  top: 60%;
+  right: 20%;
+  animation: float 11.5s ease-in-out infinite 2.3s;
+}
+
+.ghost-8 {
+  bottom: 30%;
+  left: 40%;
+  animation: float 10.5s ease-in-out infinite 1.2s;
+}
+
+.ghost-9 {
+  top: 40%;
+  left: 5%;
+  animation: float 13s ease-in-out infinite 0.3s;
+}
+
+.ghost-10 {
+  bottom: 20%;
+  right: 10%;
+  animation: float 8.5s ease-in-out infinite 1.8s;
 }
 
 @keyframes float {
@@ -230,7 +248,11 @@ body {
   .ghost {
     transform: scale(0.8);
   }
-  .ghost-5 {
+  .ghost-6,
+  .ghost-7,
+  .ghost-8,
+  .ghost-9,
+  .ghost-10 {
     display: none;
   }
 }
@@ -240,7 +262,12 @@ body {
     transform: scale(0.6);
   }
   .ghost-4,
-  .ghost-5 {
+  .ghost-5,
+  .ghost-6,
+  .ghost-7,
+  .ghost-8,
+  .ghost-9,
+  .ghost-10 {
     display: none;
   }
   .panel {
