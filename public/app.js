@@ -64,8 +64,6 @@ const titleEl = document.getElementById("song-title");
 const albumEl = document.getElementById("album-name");
 const listenEl = document.getElementById("listen-link");
 const sceneEl = document.getElementById("scene");
-const countdownEl = document.getElementById("countdown");
-const countdownNumberEl = countdownEl ? countdownEl.querySelector('.countdown-number') : null;
 
 let revealing = false;
 
@@ -184,46 +182,13 @@ function makeGhostsInteractive() {
   });
 }
 
-async function countdownThenReveal() {
-  if (revealBtn) revealBtn.style.display = "none";
-  
-  if (!countdownEl || !countdownNumberEl) {
-    await doReveal();
-    return;
-  }
-
-  countdownEl.classList.remove("hidden");
-  let count = 3;
-  countdownNumberEl.textContent = count;
-  countdownNumberEl.classList.add("pulse");
-
-  for (let i = 0; i < 3; i++) {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    count--;
-    if (count > 0) {
-      countdownNumberEl.textContent = count;
-      countdownNumberEl.classList.remove("pulse");
-      void countdownNumberEl.offsetWidth; // Force reflow
-      countdownNumberEl.classList.add("pulse");
-    }
-  }
-
-  // Hide countdown and ensure it's completely removed from view
-  countdownEl.classList.add("hidden");
-  countdownEl.style.display = 'none';
-  await new Promise(resolve => setTimeout(resolve, 300));
-  
-  // Make sure result is visible and then reveal
-  resultEl.style.display = '';
-  await doReveal();
-}
-
 // Auto-reveal when coming from QR (e.g., ?reveal=1)
 window.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const shouldReveal = params.has("reveal") ? params.get("reveal") !== "0" : false;
   if (shouldReveal) {
-    countdownThenReveal();
+    if (revealBtn) revealBtn.style.display = "none";
+    doReveal();
   }
   makeGhostsInteractive();
 });

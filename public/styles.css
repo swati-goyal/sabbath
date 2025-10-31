@@ -255,48 +255,6 @@ body {
 .footer { margin-top: 8px; color: var(--muted); font-size: 12px; }
 .footer a { color: var(--fg); opacity: 0.8; }
 
-/* Countdown overlay */
-.countdown {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(8px);
-}
-
-.countdown-number {
-  font-family: Creepster, cursive;
-  font-size: clamp(80px, 25vw, 180px);
-  color: var(--accent-2);
-  text-shadow: 
-    0 0 clamp(20px, 5vw, 40px) rgba(168, 85, 247, 0.6),
-    0 0 clamp(40px, 10vw, 80px) rgba(168, 85, 247, 0.4);
-  line-height: 1;
-  user-select: none;
-}
-
-.countdown-number.pulse {
-  animation: countdownPulse 1s ease-in-out;
-}
-
-@keyframes countdownPulse {
-  0% {
-    transform: scale(0.5);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
 /* Bottom center Gaza link */
 .gaza-cta {
   position: fixed;
