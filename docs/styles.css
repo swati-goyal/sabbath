@@ -56,13 +56,20 @@ body {
     radial-gradient(50% 50% at 50% 50%, #000 50%, transparent 51%) left/50% 100% no-repeat,
     radial-gradient(50% 50% at 50% 50%, #000 50%, transparent 51%) right/50% 100% no-repeat;
   transform-origin: center;
-  animation: fly 12s linear infinite, flap 0.4s ease-in-out infinite;
+  animation: fly 10s cubic-bezier(0.45, 0.05, 0.35, 1) infinite, flap 0.38s ease-in-out infinite;
   opacity: 0.8;
 }
-.bat.delay-1 { top: 30vh; animation-duration: 16s, 0.35s; animation-delay: 1s, 0s; }
-.bat.delay-2 { top: 15vh; animation-duration: 18s, 0.33s; animation-delay: 2s, 0s; }
+.bat.delay-1 { top: 30vh; animation-duration: 12s, 0.36s; animation-delay: 0.4s, 0s; }
+.bat.delay-2 { top: 15vh; animation-duration: 13s, 0.34s; animation-delay: 0.8s, 0s; }
 
-@keyframes fly { from { transform: translateX(0) translateY(0); left: -10vw; } to { transform: translateX(120vw) translateY(-6vh); left: -10vw; } }
+@keyframes fly {
+  0%   { transform: translateX(0vw) translateY(0vh) rotate(0.5deg); left: -10vw; }
+  20%  { transform: translateX(24vw) translateY(-2vh) rotate(-2deg); }
+  40%  { transform: translateX(48vw) translateY(1vh) rotate(1.5deg); }
+  60%  { transform: translateX(72vw) translateY(-3vh) rotate(-1deg); }
+  80%  { transform: translateX(96vw) translateY(0.5vh) rotate(2deg); }
+  100% { transform: translateX(120vw) translateY(-2vh) rotate(0deg); left: -10vw; }
+}
 @keyframes flap { 0%, 100% { transform: rotate(2deg); } 50% { transform: rotate(-8deg); } }
 
 /* Burst FX bats */
@@ -153,6 +160,33 @@ body {
 
 .footer { margin-top: 8px; color: var(--muted); font-size: 12px; }
 .footer a { color: var(--fg); opacity: 0.8; }
+
+/* Bottom center Gaza link */
+.gaza-cta {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(11, 11, 15, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px) saturate(1.05);
+}
+.gaza-cta a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+.gaza-cta .watermelon {
+  font-size: 18px;
+  line-height: 1;
+}
 
 @media (max-width: 520px) {
   .pumpkin { left: 6vw; transform: scale(0.85); }

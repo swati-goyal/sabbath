@@ -33,42 +33,17 @@ const sceneEl = document.getElementById("scene");
 
 let revealing = false;
 
-function spawnBatExplosion(count = 24, durationMs = 900) {
-  const layer = document.createElement("div");
-  layer.className = "burst-layer";
-  sceneEl.appendChild(layer);
-  for (let i = 0; i < count; i++) {
-    const ang = Math.random() * Math.PI * 2;
-    const dist = 320 + Math.random() * 240;
-    const rot = (Math.random() * 120 - 60).toFixed(1) + "deg";
-    const tx = Math.cos(ang) * dist;
-    const ty = Math.sin(ang) * dist;
-    const b = document.createElement("div");
-    b.className = "bat fx";
-    b.style.setProperty("--tx", `${tx.toFixed(1)}px`);
-    b.style.setProperty("--ty", `${ty.toFixed(1)}px`);
-    b.style.setProperty("--rot", rot);
-    b.style.setProperty("--dur", `${durationMs}ms`);
-    b.style.animationDelay = `${(Math.random() * 120) | 0}ms`;
-    layer.appendChild(b);
-  }
-  return new Promise((resolve) => setTimeout(() => { layer.remove(); resolve(); }, durationMs + 180));
-}
-
 revealBtn.addEventListener("click", async () => {
   if (revealing) return;
   revealing = true;
 
-  // Bat explosion FX first
-  await spawnBatExplosion(28, 950);
-
   const pick = getRandomSong();
   resultEl.classList.remove("hidden");
 
-  const frames = 18;
+  const frames = 10;
   for (let i = 0; i < frames; i++) {
     titleEl.textContent = spookyScramble(pick.title);
-    await new Promise(r => setTimeout(r, 28 + i * 5));
+    await new Promise(r => setTimeout(r, 16 + i * 3));
   }
 
   titleEl.textContent = pick.title + "   ";
