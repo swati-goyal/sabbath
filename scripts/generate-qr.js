@@ -4,7 +4,8 @@ import path from 'path';
 import QRCode from 'qrcode';
 
 const PORT = process.env.PORT || 3000;
-const PUBLIC_URL = process.env.PUBLIC_URL; // e.g. https://<user>.github.io/<repo>/
+const PUBLIC_URL = "https://swati-goyal.github.io/sabbath/";
+// process.env.PUBLIC_URL; // e.g. https://<user>.github.io/<repo>/
 
 function getLocalIPv4() {
   const nets = os.networkInterfaces();

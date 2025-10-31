@@ -1,19 +1,49 @@
-const songs = [
-  { title: "Black Sabbath", album: "Black Sabbath (1970)", url: "https://www.youtube.com/watch?v=0lVdMbUx1_k" },
-  { title: "Paranoid", album: "Paranoid (1970)", url: "https://www.youtube.com/watch?v=0qanF-91aJo" },
-  { title: "War Pigs", album: "Paranoid (1970)", url: "https://www.youtube.com/watch?v=LQUXuQ6Zd9w" },
-  { title: "Iron Man", album: "Paranoid (1970)", url: "https://www.youtube.com/watch?v=5s7_WbiR79E" },
-  { title: "Children of the Grave", album: "Master of Reality (1971)", url: "https://www.youtube.com/watch?v=K3b6SGoN6dA" },
-  { title: "Sweet Leaf", album: "Master of Reality (1971)", url: "https://www.youtube.com/watch?v=1gK1e2Tcbdg" },
-  { title: "Sabbath Bloody Sabbath", album: "Sabbath Bloody Sabbath (1973)", url: "https://www.youtube.com/watch?v=0lUKBVrTmEM" },
-  { title: "N.I.B.", album: "Black Sabbath (1970)", url: "https://www.youtube.com/watch?v=V-j8c1dV6jY" },
-  { title: "Heaven and Hell", album: "Heaven and Hell (1980)", url: "https://www.youtube.com/watch?v=8uPrS8H3vqI" },
-  { title: "Fairies Wear Boots", album: "Paranoid (1970)", url: "https://www.youtube.com/watch?v=0qanF-91aJo&t=221s" }
-];
+let songs = [];
+let songsOrder = [];
+let songsLoaded = false;
 
-function getRandomSong() {
-  const index = Math.floor(Math.random() * songs.length);
-  return songs[index];
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+async function loadSongs() {
+  if (songsLoaded) return;
+  try {
+    const res = await fetch('songs.txt', { cache: 'no-cache' });
+    const txt = await res.text();
+    const raw = txt.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+    const filtered = raw.filter(title => title.toLowerCase() !== 'n.i.b.' && title.toLowerCase() !== 'nib' && title.toLowerCase() !== 'n.i.b');
+    const unique = Array.from(new Set(filtered));
+    songs = unique.map(title => ({ title, album: '' }));
+    const stored = sessionStorage.getItem('songOrder');
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      songsOrder = parsed.filter(idx => idx >= 0 && idx < songs.length);
+    }
+    if (!songsOrder.length) {
+      songsOrder = shuffle([...Array(songs.length).keys()]);
+      sessionStorage.setItem('songOrder', JSON.stringify(songsOrder));
+    }
+    songsLoaded = true;
+  } catch (e) {
+    // fallback: single item to avoid crash
+    songs = [{ title: 'Black Sabbath', album: '' }];
+    songsOrder = [0];
+    songsLoaded = true;
+  }
+}
+
+function getNextSongUnique() {
+  if (!songsOrder.length) {
+    songsOrder = shuffle([...Array(songs.length).keys()]);
+  }
+  const nextIndex = songsOrder.shift();
+  sessionStorage.setItem('songOrder', JSON.stringify(songsOrder));
+  return songs[nextIndex];
 }
 
 function spookyScramble(text) {
@@ -37,7 +67,8 @@ async function doReveal() {
   if (revealing) return;
   revealing = true;
 
-  const pick = getRandomSong();
+  if (!songsLoaded) await loadSongs();
+  const pick = getNextSongUnique();
   resultEl.classList.remove("hidden");
 
   const frames = 10;
@@ -50,7 +81,7 @@ async function doReveal() {
   albumEl.textContent = pick.album;
   const q = encodeURIComponent(`${pick.title} ${pick.album}`);
   listenEl.href = `https://www.youtube.com/results?search_query=${q}`;
-  listenEl.textContent = "Search on YouTube";
+  listenEl.textContent = "Listen";
 
   if (window.navigator && "vibrate" in window.navigator) {
     try { window.navigator.vibrate(40); } catch {}
