@@ -130,7 +130,7 @@ async function doReveal() {
   resultEl.style.opacity = "1";
   resultEl.style.transition = "opacity 0.6s ease-in";
   
-  titleEl.textContent = pick.title + "   ";
+  titleEl.textContent = pick.title;
   albumEl.textContent = pick.album;
   const q = encodeURIComponent(`${pick.title} by Black Sabbath`);
   listenEl.href = `https://www.youtube.com/results?search_query=${q}`;
