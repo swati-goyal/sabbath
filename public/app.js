@@ -73,8 +73,9 @@ revealBtn.addEventListener("click", async () => {
 
   titleEl.textContent = pick.title + "   ";
   albumEl.textContent = pick.album;
-  listenEl.href = pick.url;
-  listenEl.textContent = "Watch on YouTube";
+  const q = encodeURIComponent(`${pick.title} ${pick.album}`);
+  listenEl.href = `https://www.youtube.com/results?search_query=${q}`;
+  listenEl.textContent = "Search on YouTube";
 
   // Haptic hint on mobile
   if (window.navigator && "vibrate" in window.navigator) {

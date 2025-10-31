@@ -65,7 +65,7 @@ body {
 @keyframes flap { 0%, 100% { transform: rotate(2deg); } 50% { transform: rotate(-8deg); } }
 
 /* Burst FX bats */
-.burst-layer { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
+.burst-layer { position: absolute; inset: 0; pointer-events: none; overflow: visible; z-index: 15; }
 .bat.fx {
   position: absolute;
   left: 50%; top: 50%;
