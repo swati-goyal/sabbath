@@ -86,6 +86,35 @@ async function doReveal() {
 
 revealBtn.addEventListener("click", doReveal);
 
+// Make ghosts interactive
+function makeGhostsInteractive() {
+  const ghosts = document.querySelectorAll('.ghost');
+  ghosts.forEach(ghost => {
+    ghost.addEventListener('click', function(e) {
+      e.stopPropagation();
+      this.style.transform = 'scale(1.3) rotate(360deg)';
+      this.style.filter = 'brightness(2)';
+      setTimeout(() => {
+        this.style.transform = '';
+        this.style.filter = '';
+      }, 500);
+    });
+    
+    ghost.addEventListener('touchstart', function(e) {
+      e.stopPropagation();
+      this.style.transform = 'scale(1.2)';
+      this.style.filter = 'brightness(1.5)';
+    });
+    
+    ghost.addEventListener('touchend', function(e) {
+      setTimeout(() => {
+        this.style.transform = '';
+        this.style.filter = '';
+      }, 200);
+    });
+  });
+}
+
 // Auto-reveal when coming from QR (e.g., ?reveal=1)
 window.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
@@ -94,6 +123,7 @@ window.addEventListener("DOMContentLoaded", () => {
     if (revealBtn) revealBtn.style.display = "none";
     doReveal();
   }
+  makeGhostsInteractive();
 });
 
 
