@@ -119,20 +119,38 @@ async function doReveal() {
   if (revealing) return;
   revealing = true;
 
-  if (!songsLoaded) await loadSongs();
-  const pick = getNextSongUnique();
+  try {
+    if (!songsLoaded) await loadSongs();
+    const pick = getNextSongUnique();
 
-  resultEl.classList.remove("hidden");
-  titleEl.textContent = pick.title;
-  albumEl.textContent = pick.album;
-  const q = encodeURIComponent(`${pick.title} by Black Sabbath`);
-  listenEl.href = `https://www.youtube.com/results?search_query=${q}`;
-  listenEl.textContent = "Listen";
+    if (!pick || !pick.title) {
+      console.error('No song picked');
+      revealing = false;
+      return;
+    }
 
-  // Trigger confetti
-  createConfetti(resultEl);
+    // Ensure result is visible
+    resultEl.classList.remove("hidden");
+    resultEl.style.display = '';
+    resultEl.style.visibility = 'visible';
+    resultEl.style.opacity = '1';
+    
+    titleEl.textContent = pick.title;
+    albumEl.textContent = pick.album;
+    const q = encodeURIComponent(`${pick.title} by Black Sabbath`);
+    listenEl.href = `https://www.youtube.com/results?search_query=${q}`;
+    listenEl.textContent = "Listen";
 
-  revealing = false;
+    // Small delay to ensure DOM is updated before confetti
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    // Trigger confetti
+    createConfetti(resultEl);
+  } catch (error) {
+    console.error('Error revealing song:', error);
+  } finally {
+    revealing = false;
+  }
 }
 
 revealBtn.addEventListener("click", doReveal);
@@ -190,8 +208,13 @@ async function countdownThenReveal() {
     }
   }
 
+  // Hide countdown and ensure it's completely removed from view
   countdownEl.classList.add("hidden");
+  countdownEl.style.display = 'none';
   await new Promise(resolve => setTimeout(resolve, 300));
+  
+  // Make sure result is visible and then reveal
+  resultEl.style.display = '';
   await doReveal();
 }
 
